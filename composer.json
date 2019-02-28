@@ -1,0 +1,23 @@
+{
+  "name": "archphp/jwt",
+  "description": "A simple JSON Web Token Library.",
+  "type": "library",
+  "license": "Apache-2.0",
+  "autoload": {
+    "psr-4": {
+      "Arch\\JWT\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Gyanendro Khomdram",
+      "email": "khgyanendro77@gmail.com"
+    }
+  ],
+  "require": {
+    "ext-json": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^7.0"
+  }
+}
