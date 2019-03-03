@@ -43,7 +43,7 @@ abstract class Hmac implements SymmetricInterface {
    * @return string
    */
   public function hash(string $raw): string {
-    return hash_hmac($this->getAlgorithm(), $raw, $this->getSecret());
+    return hash_hmac($this->getAlgorithm(), $raw, $this->getSecret(), true);
   }
 
 }
