@@ -2,6 +2,7 @@
 
 namespace Arch\JWT\Token;
 
+use Arch\JWT\Exception\InvalidJWTException;
 use Arch\JWT\Exception\VerifierException;
 use Arch\JWT\Payload\Verifier;
 
@@ -88,6 +89,22 @@ class Payload {
    */
   public function toJSON(): string {
     return json_encode($this->getClaims());
+  }
+
+  /**
+   * Converts json string into object (Payload part)
+   *
+   * @param string $json
+   * @return Payload
+   * @throws InvalidJWTException
+   */
+  public static function fromJson(string $json) {
+    $json = json_decode($json);
+
+    if($json !== null && $json !== false) {
+      return new Payload(get_object_vars($json));
+    }
+    throw new InvalidJWTException('Invalid Payload');
   }
 
 }

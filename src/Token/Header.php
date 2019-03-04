@@ -3,6 +3,9 @@
 namespace Arch\JWT\Token;
 
 use Arch\JWT\Encryption\Algorithm\AlgorithmInterface;
+use Arch\JWT\Encryption\Algorithm\Map;
+use Arch\JWT\Encryption\Encryption;
+use Arch\JWT\Exception\InvalidJWTException;
 
 /**
  * Class Header
@@ -61,6 +64,34 @@ class Header {
       'alg' => $this->alg->getName(),
       'typ' => $this->typ
     ]);
+  }
+
+  /**
+   * Converts json string into object (Header part)
+   *
+   * @param string $json
+   * @param string $secret
+   * @return Header
+   * @throws InvalidJWTException
+   */
+  public static function fromJSON(string $json, string $secret): Header {
+    $json = json_decode($json);
+
+    if($json !== null && $json !== false) {
+      $json = get_object_vars($json);
+      if (count($json) === 2) {
+        if (isset($json['alg']) && isset($json['typ'])) {
+          if (!empty(Map::${$json['alg']})) {
+            $algo = new Map::${$json['alg']}($secret);
+
+            if (Encryption::isAlgorithmSupported($algo)) {
+              return new Header($algo, $json['typ']);
+            }
+          }
+        }
+      }
+    }
+    throw new InvalidJWTException('Invalid Header');
   }
 
 }

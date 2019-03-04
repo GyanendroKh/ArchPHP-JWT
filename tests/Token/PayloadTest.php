@@ -1,6 +1,7 @@
 <?php
 
 use Arch\JWT\Exception\ExpirationException;
+use Arch\JWT\Exception\InvalidJWTException;
 use Arch\JWT\Exception\NotBeforeException;
 use Arch\JWT\Exception\VerifierException;
 use Arch\JWT\Token\Claim\Expiration;
@@ -59,6 +60,25 @@ class PayloadTest extends TestCase {
       $payload->verify();
     }catch(VerifierException $e) {
       $this->assertInstanceOf(ExpirationException::class, $e);
+    }
+  }
+
+  public function testFromJSON() {
+    try {
+      $data = [
+        'sub' => 'Arch',
+        'exp' => time() + 100
+      ];
+
+      $payload = Payload::fromJson(json_encode($data));
+
+      $this->assertEquals('Arch', $payload->getClaim('sub'));
+      $this->assertEquals($data, $payload->getClaims());
+      $this->assertEquals(json_encode($data), $payload->toJSON());
+
+      Payload::fromJson('');
+    }catch (\Exception $e) {
+      $this->assertInstanceOf(InvalidJWTException::class, $e);
     }
   }
 
