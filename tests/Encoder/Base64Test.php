@@ -7,7 +7,7 @@ class Base64Test extends TestCase {
 
   public function testEncoder() {
     $encoder = new Encoder();
-    echo $encoder->encode('Arch');
+    //echo $encoder->encode('Arch');
     $this->assertEquals('QXJjaA', $encoder->encode('Arch'));
     $this->assertEquals('Arch', $encoder->decode('QXJjaA'));
     $this->assertEquals('Arch', $encoder->decode('QXJjaA  '));
