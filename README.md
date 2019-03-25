@@ -6,7 +6,7 @@ This is a simple library for working with Json Web Token in PHP.
 
 ### Installing
 ```
-$ composer require archphp-jwt
+$ composer require archphp/jwt
 ```
 
 ### How to use
@@ -37,7 +37,7 @@ $payload = new Payload([
 
 $jwt = new JWT($header, $payload);
 
-// This is print out the encrypted JWT.
+// This will print out the encrypted JWT.
 echo $jwt->getJWT();
 ```
 
@@ -54,7 +54,7 @@ $t = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBcmNoIn0.kq-ax6J9QPjDcT9Gx
 // The secret key used in encrypting the JWT.
 $secret = 'Arch01';
 
-// This is throw an Exception if the JWT is invalid or claims are not verified.
+// JWT::decode will throw an Exception if the JWT is invalid or claims are not verified.
 try {
   $jwt = JWT::decode($t, $secret);
 } catch(InvalidJWTException|VerifierException $e) {
